@@ -1,1 +1,32 @@
-<p>authorization works!</p>,
+<div class="flex flex-column m-auto">
+    <div class="mt-3 flex justify-content-between align-content-center flex-wrap">   
+        <label class="mx-3" for="login ">Имя</label>
+        <input 
+        id = "login"
+        type="text"  
+        pInputText 
+        [ngClass]= "{'input-error': !login || login.length < 3}"    
+        [(ngModel)]="login"
+        />
+    </div>
+
+    <div class="mt-3 flex justify-content-between align-content-center flex-wrap">   
+        <label class="mx-3" for="password" >Пароль</label>
+        <input 
+        id = "password"
+        type="password"  
+        pInputText 
+        [ngClass]= "{'input-error': !password || password.length < 6}"    
+        [(ngModel)]="password"
+        />
+    </div>
+
+    <div class="mt-3 flex justify-content-between align-content-center flex-wrap">   
+       <p-button
+        label="Авторизоваться"
+        [disabled]= "!login || !password || login.length < 3 || password.length < 6"
+        (onClick)="onAuth()" 
+        ></p-button>
+    </div>
+
+</div>   
