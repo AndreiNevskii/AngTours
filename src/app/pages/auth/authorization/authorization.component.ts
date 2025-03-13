@@ -28,5 +28,6 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
       login: this.login,
       password: this.password
     }
+    this.userService.authUser(user);
   }
 }
