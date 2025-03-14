@@ -33,12 +33,12 @@ export class UserService {
     return this.http.post('http://localhost:3000/register', user, {responseType: 'text'});
   }
 
-  authUser(user: IUser): Observable<string>  {
-    return this.http.post('http://localhost:3000/auth', user, {responseType: 'text'});
+   authUser(user: IUser): Observable<string>  {
+   return this.http.post('http://localhost:3000/auth', user, {responseType: 'text'});
   }
   
-  authUser(user: IUser): void  {
-    this.http.post(API.auth, user).subscribe;
-  }
+  // authUser(user: IUser): void  {
+  //   this.http.post(API.auth, user).subscribe();
+  // }
  
 }

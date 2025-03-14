@@ -31,6 +31,7 @@ export class RegistrationComponent implements OnInit{
 
 
   onAuth(ev: Event): void {
+    console.log('ev', ev);
    const postObj = {login: this.login, password: this.password, email: this.email} as IUserRegister;
    this.userService.registerUser(postObj).subscribe(
     () => {this.initToast('success', 'Регистрация прошла успешно')
