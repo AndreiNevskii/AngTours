@@ -11,7 +11,7 @@ export class UserService {
   private userStorage: IUser[] =[];
   private currentUser: IUser | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private getUser(login: string): IUser | null {
     return this.userStorage.find((user) => login === user.login) || null;
@@ -33,9 +33,12 @@ export class UserService {
     return this.http.post('http://localhost:3000/register', user, {responseType: 'text'});
   }
 
-  authUser(user: IUser): void {
-    this.http.post(API.auth, user).subscribe()
+  authUser(user: IUser): Observable<string>  {
+    return this.http.post('http://localhost:3000/auth', user, {responseType: 'text'});
   }
-
-
+  
+  authUser(user: IUser): void  {
+    this.http.post(API.auth, user).subscribe;
+  }
+ 
 }
