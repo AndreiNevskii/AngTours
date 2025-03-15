@@ -40,7 +40,7 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
  onAuth(ev: Event): void {
     const postObj: IUser = {login: this.login, password: this.password};
    this.userService.authUser(postObj).subscribe(
-    () => {this.initToast('success', 'Авторизация прошла успешно')},
+    () => {this.router.navigate(['tickets'])},
     () => {this.initToast('error', 'Произошла ошибка')} 
    )
   }
@@ -48,7 +48,7 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   initToast(type: 'error' | 'success', text: string): void {
     this.messageService.add({ severity: type, detail: text, life: 3000 });
 
-    //  this.router.navigate(['tickets']);  
+    
   }
 
  
