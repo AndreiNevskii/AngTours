@@ -17,7 +17,7 @@ export class ToursService {
 
   getTourById(id: string): Observable<ITour> {
     const tourAPI = API.tour;
-    return this.http.get<ITour>(`$(tourAPI)/$(id)`);
+    return this.http.get<ITour>(`${tourAPI}/${id}`);
   }
 
 }

@@ -26,7 +26,7 @@ export class ToursComponent implements OnInit{
         });
     }
 
-    goToTour(item: any): void {
+    goToTour(item: ITour): void {
       this.router.navigate(['tour', item.id], {relativeTo: this.route});
     }
  }
