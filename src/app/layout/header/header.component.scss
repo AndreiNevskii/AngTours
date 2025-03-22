@@ -13,13 +13,13 @@
     background: var.$header-background;
     color: #fff;
     height: 100%;
-   padding: 4px 6px;  
+    padding: 4px 6px;  
 
-&_right-block {
+&__right-block {
     display: flex;
 
     & .user-info {
-        width: 100%;
+        width: 100px;
     }
   }
 }

@@ -5,6 +5,9 @@
   "projects": {
     "AngTours": {
       "projectType": "application",
+      "i18n": {
+         "sourceLocale": "ru"
+      },
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
@@ -34,13 +37,13 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/primeflex/primeflex.css"
+              "./node_modules/primeflex/primeflex.css",
+              "./node_modules/primeicons/primeicons.css"
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/app/styles"
-              ]
+                "src/app/styles"              ]
             }
           },
           "configurations": {

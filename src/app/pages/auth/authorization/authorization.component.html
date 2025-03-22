@@ -25,7 +25,7 @@
        <p-button
         label="Авторизоваться"
         [disabled]= "!login || !password || login.length < 3 || password.length < 6"
-        (click)="onAuth($event)" 
+        (click)="onAuth()" 
         ></p-button>
     </div>
 
