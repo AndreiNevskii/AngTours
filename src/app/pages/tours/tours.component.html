@@ -1,3 +1,19 @@
+
+
+
+<p-inputgroup>
+  <input
+  (input)="searchTours($event)"
+  pInputText
+  placeholder="Поиск тура"
+/>
+
+  <p-inputgroup-addon>
+      <p-button icon="pi pi-serch" severity="secondary" variant="text"/>
+  </p-inputgroup-addon>
+ </p-inputgroup>
+
+
 <div class="tours-list flex flex-wrap justify-content-around align-items-stretch">
   @for(item of tours; track item.id) {
     <div (click)="goToTour(item)"
