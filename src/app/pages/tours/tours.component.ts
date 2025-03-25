@@ -21,7 +21,7 @@ export class ToursComponent implements OnInit{
 
     tours: ITour[] =[];
     toursStore: ITour[] =[];
-    searchValue = '';
+    
     constructor(private toursService: ToursService,
       private route: ActivatedRoute,
       private router: Router
