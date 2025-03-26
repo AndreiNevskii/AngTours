@@ -1,8 +1,32 @@
-@if(tour) {
+<!-- @if(tour) {
    <div class="flex flex-column flex-wrap justify-content-center align-items-stretch">
    <div class="flex"><h2>{{tour.name}}</h2></div>
      <div class="flex"><h3>{{tour.price}}</h3></div>
-    <div class="flex"><img src="/img/{{tour.img}}" alt="Card" class="w-full"></div>
+    <div class="flex"><img src="/img/{{tour.img}}" alt="Card" class="w-12  max-w-min"></div>
     <div class="flex">{{tour.description}}</div>
   </div>
-}
+} -->
+
+<p-button
+label="Назад"
+styleClass ="p-button-link"
+routerLink="/tours"
+/>
+
+<div class="flex flex-1">
+  <p-card *ngIf="tour; else noData"
+    header = "{{tour.name}}"
+    subheader = "{{tour.price}}"
+    styleClass = "p-card-shadow col-10 overflow-hidden">
+
+    <ng-template pTemplate="header">
+      <img src="/img/{{tour.img}}" alt="Card" class="w-12">
+    </ng-template>
+   
+   <p>{{tour.description}}</p>
+  </p-card>
+  
+   <div class="nearest-tour"></div>
+</div>
+
+<ng-template #noData>Нет данных</ng-template>
