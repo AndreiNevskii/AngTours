@@ -6,13 +6,8 @@ export interface ITour {
     price: string;
     img: string;
     type?: string;
-    createdAt?: string;
-    avatar?: string;
-    firstName?: string;
-    lastName?: string;
-    cardNumber?: string;
-    citizenship?: string;
-
+    date?: string;
+    locationId: string;
 }
 
 

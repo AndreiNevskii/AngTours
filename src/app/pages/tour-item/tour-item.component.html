@@ -7,7 +7,7 @@
   </div>
 } -->
 
-<p-button
+<!-- <p-button
 label="Назад"
 styleClass ="p-button-link"
 routerLink="/tours"
@@ -15,9 +15,9 @@ routerLink="/tours"
 
 <div class="flex flex-1">
   <p-card *ngIf="tour; else noData"
-    header = "{{tour.name}}"
-    subheader = "{{tour.price}}"
-    styleClass = "p-card-shadow col-10 overflow-hidden">
+    header="{{tour.name}}"
+    subheader="{{tour.price}}"
+    styleClass="p-card-shadow col-10 overflow-hidden">
 
     <ng-template pTemplate="header">
       <img src="/img/{{tour.img}}" alt="Card" class="w-12">
@@ -26,7 +26,43 @@ routerLink="/tours"
    <p>{{tour.description}}</p>
   </p-card>
   
-   <div class="nearest-tour"></div>
+   <div class="nearest-tour">
+    <app-nearest-tours [tourNearest]="tour"/>
+   </div>
 </div>
 
-<ng-template #noData>Нет данных</ng-template>
+<ng-template #noData>Нет данных</ng-template> -->
+
+<p-button
+label="Назад"
+styleClass ="p-button-link"
+routerLink="/tours"
+/>
+
+<div class="flex flex-1 tour-item-wrap">
+  @if(tour) {
+  <div>
+  <p-card 
+    header="{{tour.name}}"
+    subheader="{{tour.price}}"
+    styleClass="p-card-shadow col-10 overflow-hidden tour-item-card">
+
+    <ng-template pTemplate="header">
+      <img src="/img/{{tour.img}}" alt="Card" class="w-12">
+    </ng-template>
+   
+   <p>{{tour.description}}</p>
+  </p-card>
+  </div>
+} @else {
+  <div>
+    Нет данных
+  </div>
+}
+   <div class="nearest-tour">
+    <app-nearest-tours [tourNearest]="tour"/>
+   </div>
+</div>
+
+
+

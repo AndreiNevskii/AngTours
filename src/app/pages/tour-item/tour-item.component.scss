@@ -5,3 +5,15 @@
 .flex{
   margin-bottom: 20px;
 }
+
+.tour-item-wrap {
+  & > div {
+    width: 50%;
+  }
+
+  & .nearest-tour {
+    display: flex;
+    justify-content: center;
+  }
+
+}

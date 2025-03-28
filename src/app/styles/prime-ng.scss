@@ -22,3 +22,18 @@
     }
 
 }
+
+.p-menubar-item-content {
+  & .p-menubar-item-link-active {
+   color: #4c308d;
+   font-weight: bold;
+}
+}
+
+.tour-item-galleria {
+ & .p-galleria-item {
+  & > img {
+    height: 250px;
+  } 
+}
+}
