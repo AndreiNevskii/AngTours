@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { IUser } from '../../models/user';
 import { UserService } from '../../services/user.service';
@@ -20,17 +20,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user: IUser;
   logoutIcon = 'pi pi-user';
 
-  constructor(private userService: UserService, private router: Router)  {}
+  constructor(private userService: UserService, private router: Router, private ngZone: NgZone)  {}
 
   ngOnInit(): void {
     this.user = this.userService.getUser();
     this.menuItems = this.initMenuItems();
+    this.ngZone.runOutsideAngular(() => {
+      setInterval(() => {
+        this.dateTime = new Date();
+      }, 1000);
+    })
 
-    setInterval(() => {
-      this.dateTime = new Date();
-    }, 1000);
-  }
-  ngOnDestroy() {}
+  }  ngOnDestroy() {}
 
   initMenuItems(): MenuItem[] {
     return [

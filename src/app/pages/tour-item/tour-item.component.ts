@@ -3,7 +3,7 @@ import { ToursService } from '../../services/tours.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ITour } from '../../models/tours';
 import { ButtonModule } from 'primeng/button';
-import { NgIf } from '@angular/common';
+import { Location, NgIf } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { NearestToursComponent } from './nearest-tours/nearest-tours.component';
 
@@ -16,8 +16,11 @@ import { NearestToursComponent } from './nearest-tours/nearest-tours.component';
 export class TourItemComponent implements OnInit{
   tourId: string = null;
   tour: ITour;
-  constructor(private tourService: ToursService, private route: ActivatedRoute,
-    private router: Router){}
+  constructor(
+    private tourService: ToursService, 
+    private route: ActivatedRoute,
+    private router: Router, 
+    private location: Location) {}
 
   ngOnInit(): void {
       this.tourId = this.route.snapshot.paramMap.get('id');
@@ -25,6 +28,11 @@ export class TourItemComponent implements OnInit{
       this.tourService.getTourById(this.tourId).subscribe((tour) => {
               this.tour = tour;
       })
+  }
+
+  onTourChanges(ev: ITour): void {
+    this.tour = ev;
+    this.location.replaceState('tours/tour' + this.tour.id);
   }
 
  }

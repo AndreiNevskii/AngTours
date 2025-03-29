@@ -1,4 +1,5 @@
 <p-galleria 
+(activeIndexChange)="activeIndexChange($event)" 
 class="tour-item-galleria"
 [value]="toursArr()" 
 [showIndicators]="true" 
@@ -6,6 +7,6 @@ class="tour-item-galleria"
 [containerStyle]="{ 'max-width': '340px' }">
 
     <ng-template #item let-item>
-        <img [src]="'/img/'+ item.img" style="width: 100%; display: block;" />
+        <img [ngSrc]="'/img/'+ item.img" fill priority/>
     </ng-template>
 </p-galleria>

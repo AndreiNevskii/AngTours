@@ -1,21 +1,23 @@
-import { Component, inject, Input, OnChanges, OnInit, SimpleChanges, model } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges, model, EventEmitter, Output } from '@angular/core';
 import { ITour } from '../../../models/tours';
 import { ToursService } from '../../../services/tours.service';
 import { GalleriaModule } from 'primeng/galleria';
+import { NgOptimizedImage } from '@angular/common';
 
 
 @Component({
   selector: 'app-nearest-tours',
-  imports: [GalleriaModule],
+  imports: [GalleriaModule, NgOptimizedImage],
   templateUrl: './nearest-tours.component.html',
   styleUrl: './nearest-tours.component.scss',
 })
 export class NearestToursComponent implements OnInit, OnChanges{
   @Input() tourNearest: ITour = null;
-
-
+  @Output() onTourChange = new EventEmitter<ITour>()
+;
   tourService = inject(ToursService)
   toursArr = model<ITour[]>([]);
+  activeLocationId: string;
 
  ngOnInit(): void {
      console.log('tourNearest', this.tourNearest)
@@ -25,12 +27,23 @@ export class NearestToursComponent implements OnInit, OnChanges{
      console.log('changes', changes)
      const tour = changes['tourNearest']?.currentValue as ITour;
 
-     if(tour?.locationId) {
-      this.tourService.getNearestTourByLocationId(tour.locationId).subscribe((data) => {
+     if(tour?.locationId && this.activeLocationId !== tour?.locationId)  {
+      this.activeLocationId = tour?.locationId;
+      this.tourService.getNearestTourByLocationId(this.activeLocationId).subscribe((data) => {
          this.toursArr.set(data);
       })
      }
 
  }
+
+
+ activeIndexChange(index: number) {
+   console.log('index', index);
+    const tours = this.toursArr();
+    const activeTour = tours.find((el, i) => i === index);
+    console.log('activeTour', activeTour);
+    this.onTourChange.emit(activeTour)
+ }
+
 
  }
