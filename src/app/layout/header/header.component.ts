@@ -36,12 +36,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   initMenuItems(): MenuItem[] {
     return [
       {
-        label: 'Билеты',
+        label: 'Туры',
         routerLink: ['/tours']
       },
       {
         label: 'Настройки',
-        routerLink: ['/settings']
+        routerLink: ['/tours/settings']
       },
       {
         label: 'Заказы',

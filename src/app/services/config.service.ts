@@ -7,7 +7,7 @@ import { API } from '../shared/api';
   providedIn: 'root'
 })
 export class ConfigService {
-
+    
   static config: any;
   constructor(private  http: HttpClient) {}
 

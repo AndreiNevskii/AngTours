@@ -25,10 +25,22 @@ export class UserService {
   // }
 
   getUser(): IUser {
-    return this.currentUser
+    if (!this.currentUser) {
+    const sessionUser: IUser = 
+    JSON.parse(sessionStorage.getItem('AngularTourUser'));
+    if(sessionUser) {
+      this.currentUser = sessionUser
+    } else {
+      return null
+    }
+    }
+    
+       return this.currentUser
   }
+
   setUser(user: IUser) {
     this.currentUser = user;
+    sessionStorage.setItem('AngularTourUser', JSON.stringify(user));
   }
  
 }

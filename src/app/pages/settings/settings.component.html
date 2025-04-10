@@ -1,0 +1,12 @@
+<div class="settings-wrap">
+ @for(item of menuItems; track item.path) {
+    <p-button
+    label="{{item.label}}"
+    styleClass="p-button-link"
+    [routerLink]="item.path"
+    ></p-button>
+ }
+   <div class="menu-content">
+    <router-outlet/>
+   </div>
+</div>

@@ -27,6 +27,8 @@
    <ng-template #header>
       <img src="/img/{{item.img}}" alt="Card" class="w-full">
    </ng-template>
+   <p>{{item.type}}</p>
+   <p>{{item.date}}</p>
    <p>{{item.description}}</p>
    </p-card>
     </div>
@@ -35,5 +37,4 @@
   @empty {
     <div class="no-data">Нет данных</div>
   }
-
 </div>
