@@ -3,9 +3,10 @@ const cors = require('cors');
 const express = require('express');
 const { log } = require('console');
  
-// user
+ 
 const userJson = "./server-data/users.json";
 const toursJson = "./server-data/tours.json";
+const countriesJson = "./server-data/countries.json";
 const jsonFileData =  fs.readFileSync(userJson, 'utf-8');
 let  parseJsonData = JSON.parse(jsonFileData);
  
@@ -89,38 +90,91 @@ app.post('/auth', (req, res) => {
     res.send(jsonFileData);
   });
  
- /*******************get tour */
- app.get('/tour/:id', (req, res) => { 
-  const jsonFileData =  fs.readFileSync(toursJson, 'utf-8', (err, data) => {}, (err) => {
-    console.log('err read file tours', err);});
-            // parse data
-    const  parseJsonData = JSON.parse(jsonFileData);
-    const paramId = req.params.id;
-
-
-    const item = parseJsonData.tours.find((tour) => tour.id === paramId);
-    if (item) {
-      res.send(item);
-    } else {
-      throw new Error('Тур не найден по id:', paramId);
-    }
-});
-
-/*******************get nearest tour */
-app.get('/nearestTours', (req, res) => { 
-  const jsonFileData =  fs.readFileSync(toursJson, 'utf-8', (err, data) => {}, (err) => {
-    console.log('err read file tours', err);});
-
-            // parse data
-    const  parseJsonData = JSON.parse(jsonFileData);
-    const locationId = req.query?.locationId;
-    console.log('req.query', req.query)
-
-    const items = parseJsonData.tours.filter((tour) => tour.locationId === locationId);
-    res.send(items);
-});
-
-
+  /*******************get tour */
+  app.get('/tour/:id', (req, res) => { 
+    const jsonFileData =  fs.readFileSync(toursJson, 'utf-8', (err, data) => {}, (err) => {
+      console.log('err read file tours', err);});
+              // parse data
+      const  parseJsonData = JSON.parse(jsonFileData);
+      const paramId = req.params.id;
+ 
+ 
+      const item = parseJsonData.tours.find((tour) => tour.id === paramId);
+      if (item) {
+        res.send(item);
+      } else {
+        throw new Error('Тур не найден по id:', paramId);
+      }
+  });
+ 
+    /*******************get tour */
+    app.get('/tour/:id', (req, res) => { 
+      const jsonFileData =  fs.readFileSync(countriesJson, 'utf-8', (err, data) => {}, (err) => {
+        console.log('err read file tours', err);});
+                // parse data
+        const  parseJsonData = JSON.parse(jsonFileData);
+        const paramId = req.params.id;
+ 
+ 
+        const item = parseJsonData.tours.find((tour) => tour.id === paramId);
+        if (item) {
+          res.send(item);
+        } else {
+          throw new Error('Тур не найден по id:', paramId);
+        }
+    });
+ 
+ 
+    /*******************get nearest tour */
+    app.get('/nearestTours', (req, res) => { 
+      const jsonFileData =  fs.readFileSync(toursJson, 'utf-8', (err, data) => {}, (err) => {
+        console.log('err read file tours', err);});
+ 
+                // parse data
+        const  parseJsonData = JSON.parse(jsonFileData);
+        const locationId = req.query?.locationId;
+        console.log('req.query', req.query)
+ 
+        const items = parseJsonData.tours.filter((tour) => tour.locationId === locationId);
+        res.send(items);
+    });
+ 
+ 
+    /*******************get countries */
+    app.get('/countries', (req, res) => { 
+      const jsonFileData =  fs.readFileSync(countriesJson, 'utf-8', (err, data) => {}, (err) => {
+        console.log('err read file tours', err);});
+ 
+                // parse data
+        const  parseJsonData = JSON.parse(jsonFileData);
+ 
+        res.send(parseJsonData);
+    });
+ 
+ 
+    /*******************delete tour */
+    app.delete('/tour/:id', (req, res) => { 
+      const jsonFileData =  fs.readFileSync(toursJson, 'utf-8', (err, data) => {}, (err) => {
+        console.log('err read file tours', err);});
+                // parse data
+        const  parseJsonData = JSON.parse(jsonFileData);
+        const paramId = req.params.id;
+ 
+ 
+        const tours = parseJsonData.tours.filter((tour) => tour.id !== paramId);
+        const json = JSON.stringify({tours: tours});
+ 
+        fs.writeFileSync(toursJson, json, 'utf-8', (data) => {}, (err) => {
+          console.log('err write file', err)
+        });
+        if (paramId) {
+          res.send(tours);
+        } else {
+          throw new Error('Тур не найден по id:', paramId);
+        }
+    });
+ 
+ 
 // run and listen serve
 app.listen(port, () => {
   console.log(`app listening on port ${port}`)
