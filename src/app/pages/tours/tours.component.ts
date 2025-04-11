@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToursService } from '../../services/tours.service';
 import {CardModule} from 'primeng/card';
-import { ITour } from '../../models/tours';
+import { ITour, TourType } from '../../models/tours';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -11,6 +11,8 @@ import { SearchPipe } from '../../shared/pipes/search.pipe';
 import { FormsModule } from '@angular/forms';
 import { HighlightActiveDirective } from '../../shared/directives/highlight-active.directive';
 import { isValid} from 'date-fns';
+import { Subscription } from 'rxjs';
+
 
 
 @Component({
@@ -23,8 +25,7 @@ import { isValid} from 'date-fns';
     InputTextModule, 
     SearchPipe, 
     FormsModule,
-    HighlightActiveDirective,
-   
+    HighlightActiveDirective
     ],
   templateUrl: './tours.component.html',
   styleUrl: './tours.component.scss',
@@ -33,16 +34,14 @@ export class ToursComponent implements OnInit{
 
     tours: ITour[] =[];
     toursStore: ITour[] =[];
-    
+       
     constructor(private toursService: ToursService,
       private route: ActivatedRoute,
-      private router: Router
-    ) {}
+      private router: Router) {}
 
-    ngOnInit(): void {
+     ngOnInit(): void {
         this.toursService.tourType$.subscribe((tour) => {
-          console.log('tour', tour)
-          switch(tour.key) {
+           switch(tour.key) {
             case 'group': 
             this.tours = this.toursStore.filter((el) => el.type === 'group')  
             break;
@@ -58,8 +57,7 @@ export class ToursComponent implements OnInit{
 
   //date
   this.toursService.tourDate$.subscribe((date) => {
-  console.log('****date', date);
-  this.tours = this.toursStore.filter((tour) => {
+    this.tours = this.toursStore.filter((tour) => {
     if(isValid(new Date(tour.date))) {
    const tourDate = new Date(tour.date).setHours(0, 0, 0, 0);
    const calendarDate = new Date(date).setHours(0, 0, 0);
@@ -69,16 +67,14 @@ export class ToursComponent implements OnInit{
   });
 
   })
-
-
-
-        this.toursService.getTours().subscribe((data) => {
+     this.toursService.getTours().subscribe((data) => {
           if(Array.isArray(data?.tours)) {
             this.tours = data.tours;
-            this.toursStore = [...data.tours];
+             this.toursStore = [...data.tours];
           }
         });
-    }
+     }
+
 
     goToTour(item: ITour): void {
       this.router.navigate(['tour', item.id], {relativeTo: this.route});
@@ -97,5 +93,5 @@ export class ToursComponent implements OnInit{
         this.goToTour(targetTour);
       }
     } 
+  }
 
- }
