@@ -30,6 +30,7 @@
    <p>{{item.type}}</p>
    <p>{{item.date}}</p>
    <p>{{item.description}}</p>
+   <p>Страна: {{item.country?.name_ru}} <img [src]="item.country?.flag_url"/></p>
    </p-card>
     </div>
   } 
