@@ -29,3 +29,7 @@ export interface ICountriesResponseItem {
     flag_url: string;
 }
             
+export interface IFilterTypeLogic {
+    key: 'all' | 'single' | 'group';
+    label?: string;
+}

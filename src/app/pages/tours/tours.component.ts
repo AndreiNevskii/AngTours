@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToursService } from '../../services/tours.service';
 import {CardModule} from 'primeng/card';
-import { ITour, TourType } from '../../models/tours';
+import { IFilterTypeLogic, ITour } from '../../models/tours';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -11,7 +11,7 @@ import { SearchPipe } from '../../shared/pipes/search.pipe';
 import { FormsModule } from '@angular/forms';
 import { HighlightActiveDirective } from '../../shared/directives/highlight-active.directive';
 import { isValid} from 'date-fns';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 
 
@@ -30,53 +30,77 @@ import { Subscription } from 'rxjs';
   templateUrl: './tours.component.html',
   styleUrl: './tours.component.scss',
 })
-export class ToursComponent implements OnInit{
-
+export class ToursComponent implements OnInit, OnDestroy{
     tours: ITour[] =[];
     toursStore: ITour[] =[];
-       
+    dateTourFilter: Date;
+    typeTourFilter: IFilterTypeLogic = {key: "all"};
+    destroyer = new Subject<boolean>();
+      
     constructor(private toursService: ToursService,
       private route: ActivatedRoute,
       private router: Router) {}
 
      ngOnInit(): void {
-        this.toursService.tourType$.subscribe((tour) => {
-           switch(tour.key) {
-            case 'group': 
-            this.tours = this.toursStore.filter((el) => el.type === 'group')  
-            break;
-            case 'single': 
-            this.tours = this.toursStore.filter((el) => el.type === 'single')  
-            break;
-            case 'all': 
-            this.tours = [...this.toursStore]  
-            break;
+        // this.toursService.tourType$.subscribe((tour) => {
+        //    switch(tour.key) {
+        //     case 'group': 
+        //     this.tours = this.toursStore.filter((el) => el.type === 'group')  
+        //     break;
+        //     case 'single': 
+        //     this.tours = this.toursStore.filter((el) => el.type === 'single')  
+        //     break;
+        //     case 'all': 
+        //     this.tours = [...this.toursStore]  
+        //     break;
             
-          }
-        })
+        //   }
+        // })
 
   //date
-  this.toursService.tourDate$.subscribe((date) => {
-    this.tours = this.toursStore.filter((tour) => {
-    if(isValid(new Date(tour.date))) {
-   const tourDate = new Date(tour.date).setHours(0, 0, 0, 0);
-   const calendarDate = new Date(date).setHours(0, 0, 0);
-   return tourDate === calendarDate;
-    }
-    else {return false}
-  });
+  // this.toursService.tourDate$.subscribe((date) => {
+  //   this.tours = this.toursStore.filter((tour) => {
+  //   if(isValid(new Date(tour.date))) {
+  //  const tourDate = new Date(tour.date).setHours(0, 0, 0, 0);
+  //  const calendarDate = new Date(date).setHours(0, 0, 0);
+  //  return tourDate === calendarDate;
+  //   }
+  //   else {return false}
+  // });
 
-  })
-     this.toursService.getTours().subscribe((data) => {
-          if(Array.isArray(data)) {
+  // })
+
+//Types
+this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => {
+  console.log('tour', tour);
+  this.typeTourFilter = tour;
+  this.initTourFilterLogic();
+ });
+
+ //Date
+ this.toursService.tourDate$.pipe(takeUntil(this.destroyer)).subscribe((date) => {
+  console.log('****date', date);
+  this.dateTourFilter = date;
+  this.initTourFilterLogic();
+ });
+   
+
+      this.toursService.getTours().subscribe((data) => {
+           if(Array.isArray(data)) {
             this.tours = data;
-             this.toursStore = [...data];
+              this.toursStore = [...data];
           }
         });
-     }
+      }
 
 
-    goToTour(item: ITour): void {
+  ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
+  }
+
+
+   goToTour(item: ITour): void {
       this.router.navigate(['tour', item.id], {relativeTo: this.route});
     }
 
@@ -93,5 +117,31 @@ export class ToursComponent implements OnInit{
         this.goToTour(targetTour);
       }
     } 
+
+     initTourFilterLogic(): void {
+      if(this.typeTourFilter) {
+        switch(this.typeTourFilter.key) {
+              case 'group': 
+              this.tours = this.toursStore.filter((el) => el.type === 'group')  
+              break;
+              case 'single': 
+              this.tours = this.toursStore.filter((el) => el.type === 'single')  
+              break;
+              case 'all': 
+              this.tours = [...this.toursStore]  
+              break;
+          }}
+        if(this.dateTourFilter) {
+            this.tours = this.tours.filter((tour) => {
+            if(this.dateTourFilter && isValid(new Date(this.dateTourFilter))) {
+            const tourDate = new Date(tour.date).setHours(0, 0, 0, 0);
+            const calendarDate = new Date(this.dateTourFilter).setHours(0, 0, 0);
+            return tourDate === calendarDate;
+            }
+             else {return false}
+            }); 
+        }
+     }
+
   }
 
