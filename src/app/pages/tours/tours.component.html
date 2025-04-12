@@ -30,7 +30,9 @@
    <p>{{item.type}}</p>
    <p>{{item.date}}</p>
    <p>{{item.description}}</p>
-   <p>Страна: {{item.country?.name_ru}} <img [src]="item.country?.flag_url"/></p>
+   <p (click)="getCountryDetail($event, item.country?.iso_code2)">
+    Страна: {{item.country?.name_ru}} 
+    <img [src]="item.country?.flag_url"/></p>
    </p-card>
     </div>
   } 
@@ -39,3 +41,18 @@
     <div class="no-data">Нет данных</div>
   }
 </div>
+
+<p-dialog  [(visible)]="showModal" [modal]="true" [style]="{width: '50rem'}">
+  <ng-template #header>
+  <p>Погода: {{weatherData}}</p>
+  </ng-template>
+
+ @if (showModal) {
+  <map [location]="location"></map>
+ }
+
+ <ng-template #footer>
+  <p-button label="Закрыть" [text]="true" severity="secondary" (click)="showModal = false"></p-button>
+ </ng-template>
+
+</p-dialog>

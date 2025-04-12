@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToursService } from '../../services/tours.service';
 import {CardModule} from 'primeng/card';
-import { IFilterTypeLogic, ITour } from '../../models/tours';
+import { IFilterTypeLogic, ILocation, ITour } from '../../models/tours';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -12,6 +12,9 @@ import { FormsModule } from '@angular/forms';
 import { HighlightActiveDirective } from '../../shared/directives/highlight-active.directive';
 import { isValid} from 'date-fns';
 import { Subject, takeUntil } from 'rxjs';
+import { DialogModule} from 'primeng/dialog'
+import { MapComponent } from '../../shared/components/map/map.component';
+import { IWeatherMap } from '../../models/map'; 
 
 
 
@@ -25,7 +28,9 @@ import { Subject, takeUntil } from 'rxjs';
     InputTextModule, 
     SearchPipe, 
     FormsModule,
-    HighlightActiveDirective
+    HighlightActiveDirective,
+    MapComponent,
+    DialogModule
     ],
   templateUrl: './tours.component.html',
   styleUrl: './tours.component.scss',
@@ -36,6 +41,9 @@ export class ToursComponent implements OnInit, OnDestroy{
     dateTourFilter: Date;
     typeTourFilter: IFilterTypeLogic = {key: "all"};
     destroyer = new Subject<boolean>();
+    showModal = false;
+    location: ILocation = null; 
+    weatherData: IWeatherMap;
       
     constructor(private toursService: ToursService,
       private route: ActivatedRoute,
@@ -142,6 +150,19 @@ this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => 
             }); 
         }
      }
+
+      getCountryDetail(ev: Event, code: string): void {
+        ev.stopPropagation();
+        this.toursService.getCountryByCode(code).subscribe((data) => {
+          if(data) {
+            const countryInfo = data.countryData;
+            console.log('countryInfo', countryInfo);
+            this.location = {lat: countryInfo.latlng[0], lng: countryInfo.latlng[1]};
+            this.showModal = true;
+          }
+        }) 
+      }
+
 
   }
 

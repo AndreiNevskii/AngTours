@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { forkJoin, Observable, Subject, map } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { forkJoin, Observable, Subject, map, switchMap } from 'rxjs';
 import { API } from '../shared/api';
-import { ICountriesResponseItem, ITour, ITourServerRes } from '../models/tours';
+import { Coords, ICountriesResponseItem, ITour, ITourServerRes } from '../models/tours';
+import { IWeatherResponce } from '../models/map';
+import { MapService } from './map.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +12,7 @@ import { ICountriesResponseItem, ITour, ITourServerRes } from '../models/tours';
 export class ToursService {
   private tourTypeSubject = new Subject<any>();
   readonly tourType$ = this.tourTypeSubject.asObservable();
+  mapService = inject(MapService)
 
   //date
   private tourDateSubject = new Subject<Date>();
@@ -84,6 +87,33 @@ export class ToursService {
     this.tourDateSubject.next(val);
   } 
 
+ getCountryByCode(code: string): Observable<any> {
+  return this.http.get<Coords[]>(API.countryByCode, {params: {codes: code}}).pipe(
+    map((countryDataArr)=> countryDataArr[0]),
+   
+    switchMap((countryData) => {
+      console.log('countryData', countryData);
+      const coords = {lat: countryData.latlng[0], lng: countryData.latlng[1]};
+      
+      return this.mapService.getWeather(coords).pipe(
+        map((weatherResponce: IWeatherResponce) => {
+          const current = weatherResponce.current;
+          const hourly = weatherResponce.hourly;
 
+          const weatherData = {
+            isDay: current.is_day,
+            snowfall: current.snowfall,
+            rain: current.rain,
+            currentWeather: hourly.temperature_2m[15]
+          };
+
+          console.log('weatherData', weatherData);
+          return {countryData, weatherData}
+
+        })
+      )
+    })
+  )
+ }
 
 }
