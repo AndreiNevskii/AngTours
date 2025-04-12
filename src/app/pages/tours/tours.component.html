@@ -28,7 +28,7 @@
       <img src="/img/{{item.img}}" alt="Card" class="w-full">
    </ng-template>
    <p>{{item.type}}</p>
-   <p>{{item.date}}</p>
+   <p>{{item.date | date: 'dd.MM.YYYY'}}</p>
    <p>{{item.description}}</p>
    <p (click)="getCountryDetail($event, item.country?.iso_code2)">
     Страна: {{item.country?.name_ru}} 
@@ -44,7 +44,7 @@
 
 <p-dialog  [(visible)]="showModal" [modal]="true" [style]="{width: '50rem'}">
   <ng-template #header>
-  <p>Погода: {{weatherData}}</p>
+  <p>Погода: {{weatherData?.rain}}</p>
   </ng-template>
 
  @if (showModal) {

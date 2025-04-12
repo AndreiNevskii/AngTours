@@ -15,6 +15,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { DialogModule} from 'primeng/dialog'
 import { MapComponent } from '../../shared/components/map/map.component';
 import { IWeatherMap } from '../../models/map'; 
+import { DatePipe } from '@angular/common';
 
 
 
@@ -30,7 +31,8 @@ import { IWeatherMap } from '../../models/map';
     FormsModule,
     HighlightActiveDirective,
     MapComponent,
-    DialogModule
+    DialogModule, 
+    DatePipe
     ],
   templateUrl: './tours.component.html',
   styleUrl: './tours.component.scss',
@@ -159,6 +161,7 @@ this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => 
             console.log('countryInfo', countryInfo);
             this.location = {lat: countryInfo.latlng[0], lng: countryInfo.latlng[1]};
             this.showModal = true;
+            
           }
         }) 
       }

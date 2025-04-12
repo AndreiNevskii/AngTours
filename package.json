@@ -23,6 +23,7 @@
     "date-fns": "^4.1.0",
     "npx": "^10.2.2",
     "ol": "^10.5.0",
+    "openmeteo": "^1.2.0",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.9",
