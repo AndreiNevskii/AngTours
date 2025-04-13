@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { forkJoin, Observable, Subject, map, switchMap, tap, delay } from 'rxjs';
+import { forkJoin, Observable, Subject, map, switchMap, tap, delay, catchError, of } from 'rxjs';
 import { API } from '../shared/api';
 import { Coords, ICountriesResponseItem, ITour, ITourServerRes } from '../models/tours';
-import { IWeatherResponce } from '../models/map';
+import { ICountryData, IWeatherResponce } from '../models/map';
 import { MapService } from './map.service';
 import { LoaderService } from './loader.service';
 
@@ -53,7 +53,14 @@ export class ToursService {
        return toursWithCountries;
     }),
     tap((data) => {
+      this.loaderService.setLoader(false)}
+      // может применяться вместо catchError ,(err) => { 
+      //   this.loaderService.setLoader(false)  
+      // }
+    ),
+    catchError((err) =>{
       this.loaderService.setLoader(false);
+      return of(null);
     })
   )
 
@@ -96,7 +103,7 @@ export class ToursService {
     this.tourDateSubject.next(val);
   } 
 
- getCountryByCode(code: string): Observable<any> {
+ getCountryByCode(code: string): Observable<ICountryData> {
   return this.http.get<Coords[]>(API.countryByCode, {params: {codes: code}}).pipe(
     map((countryDataArr)=> countryDataArr[0]),
    
@@ -115,7 +122,8 @@ export class ToursService {
             rain: current.rain,
             currentWeather: hourly.temperature_2m[15]
           };
-
+          
+          console.log('countryData', countryData);
           console.log('weatherData', weatherData);
           return {countryData, weatherData}
 

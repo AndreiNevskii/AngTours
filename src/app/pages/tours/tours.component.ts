@@ -14,7 +14,7 @@ import { isValid} from 'date-fns';
 import { Subject, takeUntil } from 'rxjs';
 import { DialogModule} from 'primeng/dialog'
 import { MapComponent } from '../../shared/components/map/map.component';
-import { IWeatherMap } from '../../models/map'; 
+import { ICountryData, IWeatherData } from '../../models/map'; 
 import { DatePipe } from '@angular/common';
 
 
@@ -45,7 +45,7 @@ export class ToursComponent implements OnInit, OnDestroy{
     destroyer = new Subject<boolean>();
     showModal = false;
     location: ILocation = null; 
-    weatherData: IWeatherMap;
+    weatherData: IWeatherData;
       
     constructor(private toursService: ToursService,
       private route: ActivatedRoute,

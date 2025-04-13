@@ -1,3 +1,5 @@
+import { Coords } from "./tours";
+
 export interface IWeatherResponce {
     current: IWeatherCurrent;
     hourly: IWeatheHourly;
@@ -16,9 +18,15 @@ export interface IWeatheHourly {
   temperature_2m: number[];
 }
 
-export interface IWeatherMap {
+
+export interface ICountryData {
+  countryData: Coords;
+  weatherData: IWeatherData
+}
+
+export interface IWeatherData {
   isDay: WeatherCurrentValue,
   snowfall: WeatherCurrentValue,
   rain: WeatherCurrentValue,
-  currentWeather:IWeatheHourly
+  currentWeather: number
 }
