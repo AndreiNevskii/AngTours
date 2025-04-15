@@ -16,6 +16,7 @@ import { DialogModule} from 'primeng/dialog'
 import { MapComponent } from '../../shared/components/map/map.component';
 import { ICountryData, IWeatherData } from '../../models/map'; 
 import { DatePipe } from '@angular/common';
+import { BasketService } from '../../services/basket.service';
 
 
 
@@ -49,7 +50,8 @@ export class ToursComponent implements OnInit, OnDestroy{
       
     constructor(private toursService: ToursService,
       private route: ActivatedRoute,
-      private router: Router) {}
+      private router: Router,
+      private basketService: BasketService) {}
 
      ngOnInit(): void {
         // this.toursService.tourType$.subscribe((tour) => {
@@ -165,6 +167,23 @@ this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => 
           }
         }) 
       }
+
+       removeTour(ev: Event, tour: ITour): void {
+       ev.stopPropagation();
+      this.toursService.deleteTourById(tour?.id).subscribe()
+      }
+
+
+      setItemToBasket(ev: Event, item: ITour): void {
+        ev.stopPropagation();
+        this.basketService.setItemToBasket(item);
+       }
+  
+       removeItemFromBasket(ev: Event, item: ITour): void {
+        ev.stopPropagation();
+        this.basketService.removeItemFromBasket(item);
+      }
+  
 
 
   }

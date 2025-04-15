@@ -8,5 +8,8 @@
     &.active {
       border: 1px solid red;
     }
+    & .basket{
+      cursor: pointer;
+    }
   }
 }

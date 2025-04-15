@@ -73,6 +73,12 @@ export class ToursService {
     return this.http.get<ITour>(`${tourAPI}/${id}`);
   }
 
+
+  deleteTourById(id: string): Observable<ITour> {
+    const tourAPI = API.tour;
+    return this.http.delete<ITour>(`${tourAPI}/${id}`);
+  }
+
  getNearestTourByLocationId(id: string): Observable<ITour[]> {
   return this.http.get<ITour[]>(API.nearestTours, {
     params: {locationId: id}

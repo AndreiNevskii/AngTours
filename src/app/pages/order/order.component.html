@@ -1,0 +1,96 @@
+<div class="ticket-info-wrap col-6">
+ <div>
+    <a routerLink="/tours">Назад</a>
+
+    <div class="mt-3">
+   <h2>Информация о туре</h2>
+   <div>Название {{tour?.name}}</div>
+   </div>
+    <div class="mt-3">
+        <h2>Информация о покупателе</h2>
+ <form>
+  <div class="mt-3 user-info" [formGroup]="userForm">
+  
+    <div class="form-group mt-3">
+     <label for="name" class="mx-3">Имя</label>
+     <input
+        type="text"
+        class="form-control mt-3"
+        id="name"
+        pInputText
+        formControlName="firstName"
+        placeholder="Введите имя">
+    </div>
+   
+     <div class="form-group mt-3">
+    <label for="surname" class="mx-3">Фамилия</label>
+    <input
+        type="text"
+        class="form-control mt-3"
+        id="surname"
+        pInputText
+        formControlName="lastName"
+        placeholder="Введите фаилию">
+       </div>
+   
+       <div class="form-group mt-3">
+        <label for="cardNumber" class="mx-3">Номер карты</label>
+        <input
+            type="text"
+            class="form-control mt-3"
+            id="cardNumber"
+            pInputText
+            formControlName="cardNumber"
+            placeholder="Введите номер карты">
+           </div>
+
+            <div class="form-group mt-3">
+        <label for="age" class="mx-3">Возраст</label>
+        <p-inputNumber
+            name="age"
+            class="form-control mt-3"
+            [min]="0" 
+            pInputText
+            formControlName="age">
+         </p-inputNumber>
+           </div>
+
+           <div class="form-group mt-3">
+            <label for="birthday" class="mx-3">День рождения</label>
+            <p-datepicker
+                name="birthDate"
+                class="form-control mt-3"
+                formControlName="birthDate">
+             </p-datepicker>
+               </div>
+
+             <div class="form-group mt-3">
+             <label for="citizenship" class="mx-3">Гражданство</label>
+             <input
+               type="text"
+               class="form-control mt-3"
+               id="citizenship"
+               pInputText
+               formControlName="citizenship"
+                placeholder="Введите гражданство">
+              </div> 
+
+
+              <div class="form-group mt-3">
+                <p-button
+                    (click)="initOrder()"
+                    class="btn btn-primaty"
+                    [disabled]="!userForm.valid">
+                    Перейти к оформлению
+                </p-button>
+                 </div> 
+
+
+
+
+    </div> 
+</form>
+
+ </div>
+ </div>
+</div>

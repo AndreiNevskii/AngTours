@@ -5,6 +5,20 @@
     <div class="layout-header__right-block">
         <div class="user-info"></div>
 
+        
+    <div class="basket mr-4">
+        <p-overlay-badge
+           badgeSize="small"
+           [value]="(basketStore$ | async).length" 
+           severity="danger">
+
+           <div class="basket-icon-wrap">
+               <i class="pi pi-cart-arrow-down"></i>
+           </div>
+       
+       </p-overlay-badge>
+   </div>
+
         <div class="logout">
             <p-button
              [icon] = "logoutIcon"

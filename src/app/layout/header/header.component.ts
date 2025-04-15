@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { IUser } from '../../models/user';
@@ -6,10 +6,14 @@ import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
+import {OverlayBadgeModule} from 'primeng/overlaybadge';
+import { Observable } from 'rxjs';
+import { ITour } from '../../models/tours';
+import { BasketService } from '../../services/basket.service';
 
 @Component({
   selector: 'app-header',
-  imports: [DatePipe, MenubarModule, ButtonModule],
+  imports: [DatePipe, MenubarModule, ButtonModule, OverlayBadgeModule, AsyncPipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   
@@ -19,10 +23,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menuItems: MenuItem[] = [];
   user: IUser;
   logoutIcon = 'pi pi-user';
+  basketStore$: Observable<ITour[]> = null;
 
-  constructor(private userService: UserService, private router: Router, private ngZone: NgZone)  {}
+  constructor(private userService: UserService, 
+    private router: Router, 
+    private ngZone: NgZone,
+    private basketservice: BasketService)  {}
 
   ngOnInit(): void {
+    this.basketStore$ = this.basketservice.backetStore$;
+
     this.user = this.userService.getUser();
     this.menuItems = this.initMenuItems();
     this.ngZone.runOutsideAngular(() => {
