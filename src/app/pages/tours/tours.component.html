@@ -30,7 +30,8 @@
    <p>{{item.type}}</p>
    <p>{{item.date | date: 'dd.MM.YYYY'}}</p>
    <p>{{item.description}}</p>
-   <p (click)="getCountryDetail($event, item.country?.iso_code2)">
+
+   <p (click)="getCountryDetail($event, item.country?.iso_code2, item)">
     Страна: {{item.country?.name_ru}} 
     <img [src]="item.country?.flag_url"/></p>
    </p-card>
@@ -59,7 +60,9 @@
   </ng-template>
 
  @if (showModal) {
-  <map [location]="location"></map>
+  <map [location]="location">
+    <p>Тур {{selectedTour.name}}</p>
+  </map>
  }
 
  <ng-template #footer>

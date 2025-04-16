@@ -47,6 +47,7 @@ export class ToursComponent implements OnInit, OnDestroy{
     showModal = false;
     location: ILocation = null; 
     weatherData: IWeatherData;
+    selectedTour: ITour = null;
       
     constructor(private toursService: ToursService,
       private route: ActivatedRoute,
@@ -155,13 +156,14 @@ this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => 
         }
      }
 
-      getCountryDetail(ev: Event, code: string): void {
+      getCountryDetail(ev: Event, code: string, tour: ITour): void {
         ev.stopPropagation();
         this.toursService.getCountryByCode(code).subscribe((data) => {
           if(data) {
             const countryInfo = data.countryData;
             console.log('countryInfo', countryInfo);
             this.location = {lat: countryInfo.latlng[0], lng: countryInfo.latlng[1]};
+            this.selectedTour = tour;
             this.showModal = true;
             
           }
