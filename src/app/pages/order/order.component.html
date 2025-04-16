@@ -30,7 +30,7 @@
         id="surname"
         pInputText
         formControlName="lastName"
-        placeholder="Введите фаилию">
+        placeholder="Введите фамилию">
        </div>
    
        <div class="form-group mt-3">
@@ -49,19 +49,20 @@
         <p-inputNumber
             name="age"
             class="form-control mt-3"
+            [showButtons]="true"
             [min]="0" 
-            pInputText
+            id="age"
             formControlName="age">
          </p-inputNumber>
            </div>
 
            <div class="form-group mt-3">
-            <label for="birthday" class="mx-3">День рождения</label>
+            <label class="mx-3">День рождения</label>
             <p-datepicker
-                name="birthDate"
+                name="birthDay"
                 class="form-control mt-3"
-                formControlName="birthDate">
-             </p-datepicker>
+                formControlName="birthDay">
+            </p-datepicker>
                </div>
 
              <div class="form-group mt-3">
@@ -81,7 +82,7 @@
                     (click)="initOrder()"
                     class="btn btn-primaty"
                     [disabled]="!userForm.valid">
-                    Перейти к оформлению
+                    Сформировать заказ
                 </p-button>
                  </div> 
 
@@ -89,7 +90,7 @@
 
 
     </div> 
-</form>
+</form> 
 
  </div>
  </div>

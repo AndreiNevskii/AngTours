@@ -59,7 +59,7 @@ initOrder(): void {
   tourId: this.tourId,
   personalData: [personalData]
  }
- this.tourService.postOrder(postObj).subscribe()
+ this.tourService.postOrder(postObj).subscribe();
 }
 
 }

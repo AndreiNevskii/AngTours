@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { forkJoin, Observable, Subject, map, switchMap, tap, delay, catchError, of } from 'rxjs';
+import { forkJoin, Observable, Subject, map, switchMap, tap, delay, catchError, of, withLatestFrom } from 'rxjs';
 import { API } from '../shared/api';
 import { Coords, ICountriesResponseItem, ITour, ITourServerRes } from '../models/tours';
 import { ICountryData, IWeatherResponce } from '../models/map';
 import { MapService } from './map.service';
 import { LoaderService } from './loader.service';
+import { BasketService } from './basket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,9 @@ export class ToursService {
   private tourDateSubject = new Subject<Date>();
   readonly tourDate$ = this.tourDateSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private basketService: BasketService
+  ) { }
 
   getTours(): Observable<ITour[]> {
   
@@ -31,7 +34,8 @@ export class ToursService {
   //parallel
   return forkJoin<[ICountriesResponseItem[], ITourServerRes]>([countries, tours]).pipe(
        delay(1000), 
-       map((data) => {
+       withLatestFrom(this.basketService.basketStore$),
+       map(([data, basketData]) => {
           console.log('data', data);
       
       let toursWithCountries = [] as ITour[];
@@ -44,6 +48,11 @@ export class ToursService {
 
       if (Array.isArray(toursArr)) {
          toursWithCountries = toursArr.map((tour) => {
+          const isTourInBasket = basketData.find((basketTour) => basketTour.id === tour.id);
+          if(isTourInBasket) {
+            tour.inBasket = true;
+          }
+
           return {
             ...tour,
             country: countriesMap.get(tour.code) || null
@@ -138,5 +147,9 @@ export class ToursService {
     })
   )
  }
+
+ postOrder(orderBody: any): Observable<any> {
+  return this.http.post<any>(API.order, orderBody);
+}
 
 }

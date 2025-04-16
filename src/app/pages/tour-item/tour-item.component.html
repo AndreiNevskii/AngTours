@@ -54,6 +54,14 @@ routerLink="/tours"
    <p>{{tour.description}}</p>
    </p-card>
   </div>
+
+  <p-button
+  label = "Сформировать заказ"
+styleClass="my-3"
+(onClick)="initOrder($event)"
+  >
+ </p-button>
+
 } @else {
   <div>
     Нет данных

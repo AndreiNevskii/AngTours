@@ -8,7 +8,7 @@ import { ITour } from '../models/tours';
 export class BasketService {
   private basketStore: ITour[] = [];
   private basketSubject = new BehaviorSubject(this.basketStore);
-  backetStore$ = this.basketSubject.asObservable();
+  basketStore$ = this.basketSubject.asObservable();
 
   constructor() { }
 

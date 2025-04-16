@@ -7,6 +7,7 @@ import { authGuard } from './shared/guards/auth.guard';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { ChangePasswordComponent } from './pages/settings/change-password/change-password.component';
 import { StatisticComponent } from './pages/settings/statistic/statistic.component';
+import { OrderComponent } from './pages/order/order.component';
 
 
 export const routes: Routes = [
@@ -23,7 +24,8 @@ export const routes: Routes = [
                   {path: '',   redirectTo: 'change-password', pathMatch: 'full' }, 
                   {path: 'change-password', component: ChangePasswordComponent},
                   {path: 'statistic', component: StatisticComponent, data: {showAside: true}}
-                   ]}
+                   ]},
+             {path: 'order/:id', component: OrderComponent}        
            ]
         },
     { path: '**',  redirectTo: '/auth', pathMatch: 'full' } 
