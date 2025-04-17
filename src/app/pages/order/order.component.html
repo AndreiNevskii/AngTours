@@ -6,12 +6,22 @@
    <h2>Информация о туре</h2>
    <div>Название {{tour?.name}}</div>
    </div>
+
     <div class="mt-3">
         <h2>Информация о покупателе</h2>
- <form>
+ 
+        <form>
   <div class="mt-3 user-info" [formGroup]="userForm">
+
+  @for (fieldObj of userFormFieldsArr; track fieldObj.control) {
+    <ng-container 
+    [ngTemplateOutlet]="formField"
+    [ngTemplateOutletContext]="fieldObj"
+    />
+   }
+
   
-    <div class="form-group mt-3">
+    <!-- <div class="form-group mt-3">
      <label for="name" class="mx-3">Имя</label>
      <input
         type="text"
@@ -42,9 +52,9 @@
             pInputText
             formControlName="cardNumber"
             placeholder="Введите номер карты">
-           </div>
+           </div> -->
 
-            <div class="form-group mt-3">
+         <!-- <div class="form-group mt-3">
         <label for="age" class="mx-3">Возраст</label>
         <p-inputNumber
             name="age"
@@ -57,15 +67,15 @@
            </div>
 
            <div class="form-group mt-3">
-            <label class="mx-3">День рождения</label>
+            <label class="mx-3">Дата рождения</label>
             <p-datepicker
-                name="birthDay"
+                name="birthDate"
                 class="form-control mt-3"
-                formControlName="birthDay">
+                formControlName="birthDate">
             </p-datepicker>
-               </div>
+               </div>  -->
 
-             <div class="form-group mt-3">
+             <!-- <div class="form-group mt-3">
              <label for="citizenship" class="mx-3">Гражданство</label>
              <input
                type="text"
@@ -74,7 +84,7 @@
                pInputText
                formControlName="citizenship"
                 placeholder="Введите гражданство">
-              </div> 
+              </div>  -->
 
 
               <div class="form-group mt-3">
@@ -89,9 +99,47 @@
 
 
 
-    </div> 
-</form> 
-
- </div>
- </div>
+   
+         </div> 
+      </form> 
+    </div>
+  </div>
 </div>
+<ng-template #formField let-control="control" let-placeholder="placeholder" let-label="label" let-type="type">
+  <div [formGroup]="userForm" class="form-group mt-3">
+    @if(type==="text")
+   {<label [attr.for]="control" class="mx-3">{{label}}</label>
+     <input  
+          type="text"
+          class="form-group mt-3"
+           [id]="control"
+           pInputText
+           [formControlName]="control"
+           [placeholder]="placeholder"
+
+         
+    >}
+
+    @if(type==="number")
+    {<label [attr.for]="control" class="mx-3">{{label}}</label>
+      <input  
+           type="number"
+           class="form-group mt-3"
+           [id]="control"
+           [min]="0"
+           [formControlName]="control"
+         
+     >}
+
+     @if(type==="date")
+    {<label [attr.for]="control" class="mx-3">{{label}}</label>
+      <input  
+           type="date"
+           class="form-group mt-3"
+           [id]="control"
+           [formControlName]="control"
+         
+     >}
+
+</div>
+</ng-template>
