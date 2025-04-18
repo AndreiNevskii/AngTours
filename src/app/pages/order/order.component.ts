@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { UserService } from '../../services/user.service';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-order',
@@ -16,8 +17,9 @@ import { UserService } from '../../services/user.service';
     InputNumberModule,
     InputTextModule,
     ButtonModule,
-    DatePickerModule
-  ],
+    DatePickerModule,
+    NgTemplateOutlet
+   ],
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss',
 })
@@ -26,6 +28,14 @@ export class OrderComponent implements OnInit{
  tourId: string = null;
  tour: ITour; 
  userForm: FormGroup;
+ userFormFieldsArr = [
+  {label: "Имя", placeholder: "Введите имя", control: "firstName", type: "text"},
+  {label: "Фамилия", placeholder: "Введите фамилию", control: "lastName", type: "text"},
+  {label: "Номер карты", placeholder: "Введите номер карты", control: "cardNumber", type: "text"},
+  {label: "Возраст", control: "age", type: "number"},
+  {label: "Дата рождения", control: "birthDate", type: "date"},
+  {label: "Гражданство", placeholder: "Введите гражданство", control: "citizenship", type: "text"},
+ ]
 
 
 constructor(private tourService: ToursService,
@@ -45,7 +55,7 @@ ngOnInit(): void {
         firstName: new FormControl('', {validators: Validators.required}),
         lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
         cardNumber: new FormControl('', [Validators.required, Validators.minLength(3)]),
-        birthDay: new FormControl('', [Validators.required]),
+        birthDate: new FormControl('', [Validators.required]),
         age: new FormControl('', [Validators.required]),
         citizenship: new FormControl('', [Validators.required])
     })
