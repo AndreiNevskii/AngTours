@@ -14,9 +14,17 @@ import { isValid} from 'date-fns';
 import { Subject, takeUntil } from 'rxjs';
 import { DialogModule} from 'primeng/dialog'
 import { MapComponent } from '../../shared/components/map/map.component';
-import { ICountryData, IWeatherData } from '../../models/map'; 
+import { ICountryData, IWeatherData, IWeatherResponce } from '../../models/map'; 
 import { DatePipe } from '@angular/common';
 import { BasketService } from '../../services/basket.service';
+import { MapService } from '../../services/map.service';
+import { ConfirmDialog, ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
+
+
+
+
 
 
 
@@ -33,10 +41,19 @@ import { BasketService } from '../../services/basket.service';
     HighlightActiveDirective,
     MapComponent,
     DialogModule, 
-    DatePipe
-    ],
+    DatePipe,
+  
+   
+  
+    // ConfirmDialog,
+    // ToastModule, 
+  
+         ],
   templateUrl: './tours.component.html',
   styleUrl: './tours.component.scss',
+  providers: [ConfirmationService, MessageService],
+  
+
 })
 export class ToursComponent implements OnInit, OnDestroy{
     tours: ITour[] =[];
@@ -46,13 +63,18 @@ export class ToursComponent implements OnInit, OnDestroy{
     destroyer = new Subject<boolean>();
     showModal = false;
     location: ILocation = null; 
-    weatherData: IWeatherData;
+    weatherData: IWeatherData= null;
     selectedTour: ITour = null;
+     
       
     constructor(private toursService: ToursService,
       private route: ActivatedRoute,
       private router: Router,
-      private basketService: BasketService) {}
+      private mapService: MapService,
+      private basketService: BasketService,
+      // private confirmationService: ConfirmationService, 
+      private messageService: MessageService
+      ) {}
 
      ngOnInit(): void {
         // this.toursService.tourType$.subscribe((tour) => {
@@ -104,6 +126,7 @@ this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => 
               this.toursStore = [...data];
           }
         });
+
       }
 
 
@@ -165,7 +188,7 @@ this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => 
             this.location = {lat: countryInfo.latlng[0], lng: countryInfo.latlng[1]};
             this.selectedTour = tour;
             this.showModal = true;
-            
+           
           }
         }) 
       }
@@ -186,6 +209,33 @@ this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => 
         this.basketService.removeItemFromBasket(item);
       }
   
+  //  confirm(event: Event) {
+  //       this.confirmationService.confirm({
+  //           target: event.target as EventTarget,
+  //           message: 'Do you want to delete this record?',
+  //           header: 'Danger Zone',
+  //           icon: 'pi pi-info-circle',
+  //           rejectLabel: 'Cancel',
+  //           rejectButtonProps: {
+  //               label: 'Cancel',
+  //               severity: 'secondary',
+  //               outlined: true,
+  //           },
+  //           acceptButtonProps: {
+  //               label: 'Delete',
+  //               severity: 'danger',
+  //           },
+
+  //           accept: () => {
+  //               this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' });
+  //           },
+  //           reject: () => {
+  //               this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+  //           },
+  //       });
+  //   }
+
+
 
 
   }

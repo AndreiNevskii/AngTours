@@ -70,4 +70,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.logoutIcon = val? 'pi pi-sign-out' : 'pi pi-user';
   }
 
+  initBasket(ev: Event): void {
+    this.router.navigate(['/tours/basket'])
+   }
+
+
+  
+
+
 }

@@ -10,6 +10,19 @@
     }
     & .basket{
       cursor: pointer;
+      align-items: start;
+    
+    
+    & > .pi{
+      display: inline-block;
+    }
+    }
+
+    & .delete-tour{
+      display: flex;
+     justify-content: right;
+     margin-top: 5px;
+
     }
   }
 }

@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { forkJoin, Observable, Subject, map, switchMap, tap, delay, catchError, of, withLatestFrom } from 'rxjs';
 import { API } from '../shared/api';
 import { Coords, ICountriesResponseItem, ITour, ITourServerRes } from '../models/tours';
-import { ICountryData, IWeatherResponce } from '../models/map';
+import { ICountryData, IWeatherData, IWeatherResponce } from '../models/map';
 import { MapService } from './map.service';
 import { LoaderService } from './loader.service';
 import { BasketService } from './basket.service';
@@ -123,15 +123,14 @@ export class ToursService {
     map((countryDataArr)=> countryDataArr[0]),
    
     switchMap((countryData) => {
-      console.log('countryData', countryData);
-      const coords = {lat: countryData.latlng[0], lng: countryData.latlng[1]};
+     const coords = {lat: countryData.latlng[0], lng: countryData.latlng[1]};
       
       return this.mapService.getWeather(coords).pipe(
         map((weatherResponce: IWeatherResponce) => {
           const current = weatherResponce.current;
           const hourly = weatherResponce.hourly;
 
-          const weatherData = {
+          const weatherData: IWeatherData = {
             isDay: current.is_day,
             snowfall: current.snowfall,
             rain: current.rain,

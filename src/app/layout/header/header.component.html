@@ -7,15 +7,17 @@
 
         
     <div class="basket mr-4">
+  
         <p-overlay-badge
            badgeSize="small"
            [value]="(basketStore$ | async).length" 
-           severity="danger">
+           severity="danger"
+           (click)="initBasket($event)">
 
            <div class="basket-icon-wrap">
-               <i class="pi pi-cart-arrow-down"></i>
-           </div>
-       
+            <i class="pi pi-cart-arrow-down"></i>
+            </div>
+         
        </p-overlay-badge>
    </div>
 

@@ -8,6 +8,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { ChangePasswordComponent } from './pages/settings/change-password/change-password.component';
 import { StatisticComponent } from './pages/settings/statistic/statistic.component';
 import { OrderComponent } from './pages/order/order.component';
+import { BasketComponent } from './pages/basket/basket.component';
 
 
 export const routes: Routes = [
@@ -25,7 +26,8 @@ export const routes: Routes = [
                   {path: 'change-password', component: ChangePasswordComponent},
                   {path: 'statistic', component: StatisticComponent, data: {showAside: true}}
                    ]},
-             {path: 'order/:id', component: OrderComponent}        
+             {path: 'order/:id', canActivate: [authGuard], component: OrderComponent},
+             {path: 'basket', component: BasketComponent}            
            ]
         },
     { path: '**',  redirectTo: '/auth', pathMatch: 'full' } 

@@ -36,18 +36,25 @@
     <img [src]="item.country?.flag_url"/></p>
    </p-card>
 
-   <div class="basket my-2 ml-2">
+   <div class="basket m-2">
     @if(!item.inBasket) {
       <i (click)="setItemToBasket($event, item)" class="pi pi-cart-plus" style="color: green"></i>
     }
     @else{
       <i (click)="removeItemFromBasket($event, item)" class="pi pi-cart-minus" style="color: red"></i>
     }
-    </div>
+  
+  
+        <p-button class="delete-tour my-2"
+        label="Удалить тур"
+        icon="pi pi-trash"
+        (click)="removeTour($event, item); ngOnInit()">
+        </p-button>
+     
+  </div> 
 
-
-    </div>
-  } 
+   </div>
+  }
 
   @empty {
     <div class="no-data">Нет данных</div>
@@ -56,7 +63,7 @@
 
 <p-dialog  [(visible)]="showModal" [modal]="true" [style]="{width: '50rem'}">
   <ng-template #header>
-  <p>Погода: {{weatherData?.rain}}</p>
+  <p>Погода</p>
   </ng-template>
 
  @if (showModal) {
