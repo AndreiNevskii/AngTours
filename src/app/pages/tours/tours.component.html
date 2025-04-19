@@ -44,12 +44,14 @@
       <i (click)="removeItemFromBasket($event, item)" class="pi pi-cart-minus" style="color: red"></i>
     }
   
-  
-        <p-button class="delete-tour my-2"
-        label="Удалить тур"
-        icon="pi pi-trash"
-        (click)="removeTour($event, item); ngOnInit()">
-        </p-button>
+     @if (userLogin === 'admin') {
+      <p-button class="delete-tour my-2"
+      label="Удалить тур"
+      icon="pi pi-trash"
+      (click)="removeTour($event, item);">
+      </p-button>
+     }
+
      
   </div> 
 
@@ -63,7 +65,13 @@
 
 <p-dialog  [(visible)]="showModal" [modal]="true" [style]="{width: '50rem'}">
   <ng-template #header>
-  <p>Погода</p>
+   <div class="weather"> 
+  <div class="weather-item__1">Погода:</div> 
+  <div class="weather-item"> {{weatherData.isDay ? 'День': 'Ночь'}}</div>
+  <div class="weather-item"> {{weatherData.rain ? 'Идет дождь': 'Дождя нет'}}</div>
+  <div class="weather-item">{{weatherData.snowfall ? 'Идет снег':'Снег не идет'}}</div>
+  <div class="weather-item">Температура: {{weatherData.currentWeather+'°'}}</div>
+   </div>
   </ng-template>
 
  @if (showModal) {

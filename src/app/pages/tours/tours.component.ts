@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { ToursService } from '../../services/tours.service';
 import {CardModule} from 'primeng/card';
 import { IFilterTypeLogic, ILocation, ITour } from '../../models/tours';
@@ -21,7 +21,7 @@ import { MapService } from '../../services/map.service';
 import { ConfirmDialog, ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
-
+import { UserService } from '../../services/user.service';
 
 
 
@@ -65,6 +65,7 @@ export class ToursComponent implements OnInit, OnDestroy{
     location: ILocation = null; 
     weatherData: IWeatherData= null;
     selectedTour: ITour = null;
+    userLogin = inject(UserService).getUser()?.login;
      
       
     constructor(private toursService: ToursService,
@@ -73,10 +74,11 @@ export class ToursComponent implements OnInit, OnDestroy{
       private mapService: MapService,
       private basketService: BasketService,
       // private confirmationService: ConfirmationService, 
-      private messageService: MessageService
+      private messageService: MessageService,
       ) {}
 
      ngOnInit(): void {
+ 
         // this.toursService.tourType$.subscribe((tour) => {
         //    switch(tour.key) {
         //     case 'group': 
@@ -187,6 +189,7 @@ this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => 
             console.log('countryInfo', countryInfo);
             this.location = {lat: countryInfo.latlng[0], lng: countryInfo.latlng[1]};
             this.selectedTour = tour;
+            this.weatherData = data.weatherData;
             this.showModal = true;
            
           }
@@ -195,8 +198,11 @@ this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => 
 
        removeTour(ev: Event, tour: ITour): void {
        ev.stopPropagation();
-      this.toursService.deleteTourById(tour?.id).subscribe()
-      }
+      this.toursService.deleteTourById(tour?.id).subscribe((data) =>
+        {this.tours = data;
+        this.toursStore = [...data];})
+      
+    }
 
 
       setItemToBasket(ev: Event, item: ITour): void {

@@ -26,3 +26,18 @@
     }
   }
 }
+
+.weather {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+ padding: 1rem;
+ background-color: #e1e7f8;
+  &-item{
+    margin-left: 2rem;
+  }
+  &-item__1{
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+}

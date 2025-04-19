@@ -83,9 +83,9 @@ export class ToursService {
   }
 
 
-  deleteTourById(id: string): Observable<ITour> {
+  deleteTourById(id: string): Observable<ITour[]> {
     const tourAPI = API.tour;
-    return this.http.delete<ITour>(`${tourAPI}/${id}`);
+    return this.http.delete<ITour[]>(`${tourAPI}/${id}`);
   }
 
  getNearestTourByLocationId(id: string): Observable<ITour[]> {
@@ -148,7 +148,7 @@ export class ToursService {
  }
 
  postOrder(orderBody: any): Observable<any> {
-  return this.http.post<any>(API.order, orderBody);
+  return this.http.post(API.order, orderBody, {responseType: 'text'});
 }
 
 }

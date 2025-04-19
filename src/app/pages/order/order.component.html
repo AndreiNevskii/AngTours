@@ -123,7 +123,7 @@
          
     >}
 
-    @if(type==="number")
+    @else if(type==="number")
     {<label [attr.for]="control" class="mx-3">{{label}}</label>
       <input  
            type="number"
@@ -134,7 +134,7 @@
          
      >}
 
-     @if(type==="date")
+     @else if(type==="date")
     {<label [attr.for]="control" class="mx-3">{{label}}</label>
       <input  
            type="date"
