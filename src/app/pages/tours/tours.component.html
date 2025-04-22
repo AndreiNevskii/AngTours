@@ -45,11 +45,10 @@
     }
   
      @if (userLogin === 'admin') {
-      <p-button class="delete-tour my-2"
-      label="Удалить тур"
-      icon="pi pi-trash"
-      (click)="removeTour($event, item);">
-      </p-button>
+       <p-toast />
+      <p-confirmpopup />
+      <p-button class="delete-tour" (onClick)="removeTour($event, item)" label="Удалить тур" icon="pi pi-trash" severity="danger" [raised]="true" />
+
      }
 
      

@@ -18,11 +18,10 @@ import { ICountryData, IWeatherData, IWeatherResponce } from '../../models/map';
 import { DatePipe } from '@angular/common';
 import { BasketService } from '../../services/basket.service';
 import { MapService } from '../../services/map.service';
-import { ConfirmDialog, ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { UserService } from '../../services/user.service';
-
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 
 
@@ -42,13 +41,9 @@ import { UserService } from '../../services/user.service';
     MapComponent,
     DialogModule, 
     DatePipe,
-  
-   
-  
-    // ConfirmDialog,
-    // ToastModule, 
-  
-         ],
+    ToastModule, 
+    ConfirmPopupModule
+           ],
   templateUrl: './tours.component.html',
   styleUrl: './tours.component.scss',
   providers: [ConfirmationService, MessageService],
@@ -73,7 +68,7 @@ export class ToursComponent implements OnInit, OnDestroy{
       private router: Router,
       private mapService: MapService,
       private basketService: BasketService,
-      // private confirmationService: ConfirmationService, 
+      private confirmationService: ConfirmationService, 
       private messageService: MessageService,
       ) {}
 
@@ -196,15 +191,7 @@ this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => 
         }) 
       }
 
-       removeTour(ev: Event, tour: ITour): void {
-       ev.stopPropagation();
-      this.toursService.deleteTourById(tour?.id).subscribe((data) =>
-        {this.tours = data;
-        this.toursStore = [...data];})
-      
-    }
-
-
+       
       setItemToBasket(ev: Event, item: ITour): void {
         ev.stopPropagation();
         this.basketService.setItemToBasket(item);
@@ -214,32 +201,42 @@ this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => 
         ev.stopPropagation();
         this.basketService.removeItemFromBasket(item);
       }
-  
-  //  confirm(event: Event) {
-  //       this.confirmationService.confirm({
-  //           target: event.target as EventTarget,
-  //           message: 'Do you want to delete this record?',
-  //           header: 'Danger Zone',
-  //           icon: 'pi pi-info-circle',
-  //           rejectLabel: 'Cancel',
-  //           rejectButtonProps: {
-  //               label: 'Cancel',
-  //               severity: 'secondary',
-  //               outlined: true,
-  //           },
-  //           acceptButtonProps: {
-  //               label: 'Delete',
-  //               severity: 'danger',
-  //           },
 
-  //           accept: () => {
-  //               this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' });
-  //           },
-  //           reject: () => {
-  //               this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
-  //           },
-  //       });
-  //   }
+    //   removeTour(ev: Event, tour: ITour): void {
+    //     ev.stopPropagation();
+    //    this.toursService.deleteTourById(tour?.id).subscribe((data) =>
+    //      {this.tours = data;
+    //      this.toursStore = [...data];})
+       
+    //  }
+
+
+     removeTour(ev: Event, tour: ITour): void
+     {    ev.stopPropagation();
+         this.confirmationService.confirm({
+          target: event.target as EventTarget,
+          message: 'Вы действительно хотите удалить этот тур?',
+          icon: 'pi pi-info-circle',
+          rejectButtonProps: {
+              label: 'Отмена',
+              severity: 'secondary',
+              outlined: true
+          },
+          acceptButtonProps: {
+              label: 'Удалить',
+              severity: 'danger'
+          },
+          accept: () => {
+            this.toursService.deleteTourById(tour?.id).subscribe((data) => {
+              this.tours = data;
+              this.toursStore = [...data]});
+              this.messageService.add({ severity: 'info', summary: 'Удаление подтверждено', detail: 'Тур удален', life: 3000 });
+          },
+          reject: () => {
+              this.messageService.add({ severity: 'error', summary: 'Отмена', detail: 'Вы передумали удалять', life: 3000 });
+          }
+      });
+  }
 
 
 

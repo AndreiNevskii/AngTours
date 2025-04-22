@@ -125,24 +125,26 @@
 
     @else if(type==="number")
     {<label [attr.for]="control" class="mx-3">{{label}}</label>
-      <input  
+      <p-inputNumber  
            type="number"
            class="form-group mt-3"
            [id]="control"
            [min]="0"
-           [formControlName]="control"
+           [showButtons]="true"
+           [formControlName]="control"></p-inputNumber>
          
-     >}
+    }
 
      @else if(type==="date")
     {<label [attr.for]="control" class="mx-3">{{label}}</label>
-      <input  
+      <p-datePicker  
            type="date"
            class="form-group mt-3"
            [id]="control"
            [formControlName]="control"
-         
-     >}
+           dateFormat="dd.mm.yy"
+           showIcon="true" >        
+      </p-datePicker>}
 
 </div>
 </ng-template>

@@ -1,10 +1,12 @@
+<p-toast/>
+<p-confirmdialog/>
 <p-table [value]="basketItems$ | async" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template #header>
         <tr>
             <th>Тур</th>
             <th>Цена</th>
             <th>Дата</th>
-            <th>Удалить тур</th>
+            <th>Удалить тур</th> 
            
         </tr>
     </ng-template>
@@ -13,7 +15,11 @@
             <td>{{ tour.name }}</td>
             <td>{{ tour.price }}</td>
             <td>{{ tour.date| date }}</td>
-            <td><i class="pi pi-trash" (click)="removeRow($event, tour)"></i> </td>
+            <td class="pi pi-trash" (click)="removeRow($event, tour)">  
+                         
+            </td>
+      
           </tr>
-    </ng-template>
+   </ng-template>
+  
 </p-table>
