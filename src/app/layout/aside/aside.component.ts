@@ -23,6 +23,8 @@ export class AsideComponent implements OnInit {
     {key: 'all', label: 'Все'}
   ]
 
+  checked: boolean = false;
+
   ngOnInit(): void {
     this.selectedType = this.tourTypes.find((type) => type.key === 'all' )
   }
