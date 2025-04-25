@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { ToursService } from '../../services/tours.service';
 import { SelectChangeEvent, SelectModule} from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
+import { Checkbox } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-aside',
-  imports: [SelectModule, FormsModule, DatePickerModule],
+  imports: [SelectModule, FormsModule, DatePickerModule, Checkbox],
   templateUrl: './aside.component.html',
   styleUrl: './aside.component.scss'
 })

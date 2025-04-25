@@ -66,8 +66,8 @@
   <ng-template #header>
    <div class="weather"> 
   <div class="weather-item__1">Погода:</div> 
-  <div class="weather-item"> {{weatherData.isDay ? 'День': 'Ночь'}}</div>
-  <div class="weather-item"> {{weatherData.rain ? 'Идет дождь': 'Дождя нет'}}</div>
+  <div class="weather-item"> <img src="{{weatherData.isDay ? 'img/day.png' : 'img/night.png'}}"/></div>
+  <div class="weather-item"> <img src="{{weatherData.rain ? 'img/rainy.png': 'img/sunny.png'}}"/></div>
   <div class="weather-item">{{weatherData.snowfall ? 'Идет снег':'Снег не идет'}}</div>
   <div class="weather-item">Температура: {{weatherData.currentWeather+'°'}}</div>
    </div>
