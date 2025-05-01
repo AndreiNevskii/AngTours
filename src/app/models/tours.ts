@@ -42,3 +42,10 @@ export interface ILocation {
 export type Coords = {latlng: [number, number]
 
 } 
+
+export interface IOrder {
+    userLogin: string;
+    tourId: string;
+    orders: number;
+    personalData: {firstName: string, lastName: string }
+}

@@ -102,6 +102,15 @@ export class ToursComponent implements OnInit, OnDestroy{
 
   // })
 
+
+
+  //Types
+// this.toursService.c$.pipe(takeUntil(this.destroyer)).subscribe((tour) => {
+//   console.log('tour', tour);
+//   this.typeTourFilter = tour;
+//   this.initTourFilterLogic();
+//  });
+
 //Types
 this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour) => {
   console.log('tour', tour);
