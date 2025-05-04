@@ -21,11 +21,17 @@ export class ToursService {
   private tourDateSubject = new Subject<Date>();
   readonly tourDate$ = this.tourDateSubject.asObservable();
 
+  //checkbox
+  private toursBasketSubject = new Subject<ITour[]>();
+  readonly toursBasket$ = this.toursBasketSubject.asObservable();
+
+
   constructor(private http: HttpClient,
     private basketService: BasketService
   ) { }
 
-  getTours(): Observable<ITour[]> {
+  getTours(fromBasket = false): Observable<ITour[]> {
+
   
     this.loaderService.setLoader(true);
 
